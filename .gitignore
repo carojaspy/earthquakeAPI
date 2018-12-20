@@ -10,3 +10,14 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Exclude .ide confs
+.vscode/
+.idea/
+
+
+# Exclude vendor
+vendor/
+
+# exec files
+Server
