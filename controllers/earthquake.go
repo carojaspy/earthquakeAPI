@@ -51,6 +51,9 @@ func GetSingleEarthQuake(w http.ResponseWriter, r *http.Request) {
 		w.Write(utils.SerializeObject(elm))
 	} else {
 		log.Println("Not found element with ID ", vars["id"])
+		resps := []byte(fmt.Sprintf(`{"msg":"Not found element with ID %s", "status":"Fail"}`, string(vars["id"])))
+		w.Write(resps)
+
 	}
 }
 
@@ -58,7 +61,17 @@ func GetSingleEarthQuake(w http.ResponseWriter, r *http.Request) {
 func DeleteEarthQuake(w http.ResponseWriter, r *http.Request) {
 	// GetEarthQuakes
 	log.Println("DeleteEarthQuake")
+	vars := mux.Vars(r)
 	utils.SetJSONResponse(&w)
+	if _, found := earthquakes[vars["id"]]; found {
+		resps := []byte(fmt.Sprintf(`{"msg":"Deleted element with ID %s", "status":"OK"}`, string(vars["id"])))
+		delete(earthquakes, vars["id"])
+		w.Write(resps)
+	} else {
+		log.Println("Not found element with ID ", vars["id"])
+		resps := []byte(fmt.Sprintf(`{"msg":"Not found element with ID %s", "status":"Fail"}`, string(vars["id"])))
+		w.Write(resps)
+	}
 }
 
 // UpdateEarthQuake .
